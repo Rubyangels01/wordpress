@@ -13,8 +13,4 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Deploy to XAMPP
-      run: |
-        # Copy files to XAMPP htdocs directory (adjust the path as needed)
-        robocopy .\ D:\DOWLOAD\Xxam\htdocs\wordpress
-
+   
