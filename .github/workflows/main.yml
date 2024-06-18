@@ -15,6 +15,6 @@ jobs:
       
     - name: Copy to XAMPP  # Bước để sao chép các tệp từ GitHub xuống máy chủ XAMPP
       run: |
-        scp -r ./* admin@localhost:D:/DOWLOAD/Xxam/htdocs/wordpress
+        scp -r ./* admin@ADMIN-PC:D:/DOWLOAD/Xxam/htdocs/wordpress
 
    
