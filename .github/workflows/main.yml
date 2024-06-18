@@ -16,5 +16,5 @@ jobs:
     - name: Deploy to XAMPP
       run: |
         # Copy files to XAMPP htdocs directory (adjust the path as needed)
-        scp -r ./* admin@localhost:D:/DOWLOAD/Xxam/htdocs/wordpress
+        robocopy .\ D:\DOWLOAD\Xxam\htdocs\wordpress
 
