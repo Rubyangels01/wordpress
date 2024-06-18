@@ -3,14 +3,18 @@ name: Deploy WordPress Site
 on:
   push:
     branches:
-      - main
+      - main  # Cấu hình workflows sẽ chạy khi có push lên nhánh main
 
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest  # Sử dụng Ubuntu runner
 
     steps:
-    - name: Checkout code
+    - name: Checkout code  # Bước này để checkout mã nguồn từ repository GitHub
       uses: actions/checkout@v2
+      
+    - name: Copy to XAMPP  # Bước để sao chép các tệp từ GitHub xuống máy chủ XAMPP
+      run: |
+        scp -r ./* admin@localhost:D:/DOWLOAD/Xxam/htdocs/wordpress
 
    
