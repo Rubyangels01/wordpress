@@ -1,4 +1,4 @@
-name: Deploy WordPress Site
+name: Build and Test
 
 on:
   push:
@@ -6,30 +6,20 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3  # Update to v3
+      uses: actions/checkout@v3
 
     - name: Set up Node.js
-      uses: actions/setup-node@v3  # Update to v3
+      uses: actions/setup-node@v3
       with:
         node-version: '20'
 
-    - name: Install WP CLI
-      run: |
-        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-        chmod +x wp-cli.phar
-        sudo mv wp-cli.phar /usr/local/bin/wp
+    - name: Install dependencies
+      run: npm install
 
-    - name: Install dependencies and build project
-      run: |
-        npm install
-        npm run build
-
-    - name: Deploy to XAMPP
-      run: |
-        scp -r ./ user@localhost:"D:/DOWLOAD/Xxam/htdocs/wordpress"
-        ssh user@localhost -p 8084 "cd D:/DOWLOAD/Xxam/htdocs/wordpress && wp db import D:/Downloads/mydata.sql"
+    - name: Build project
+      run: npm run build
