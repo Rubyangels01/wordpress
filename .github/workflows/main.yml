@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: window-latest  # Sử dụng Ubuntu runner
+    runs-on: ubuntu-latest  # Sử dụng Ubuntu runner
 
     steps:
     - name: Checkout code  # Bước này để checkout mã nguồn từ repository GitHub
