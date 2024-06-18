@@ -1,17 +1,31 @@
-name: Deploy WordPress Site
+# .github/workflows/ci.yml
+name: CI
 
 on:
   push:
-    branches:
-      - main  # Cấu hình workflows sẽ chạy khi có push lên nhánh main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest  # Sử dụng Ubuntu runner
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code  # Bước này để checkout mã nguồn từ repository GitHub
+    - name: Checkout code
       uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
       
     
 
