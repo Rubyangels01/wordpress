@@ -30,7 +30,7 @@ jobs:
 
       - name: Set up WordPress configuration
         run: |
-          cd D:/DOWLOAD/Xxam/htdocs/wordpress  # Thay đổi đường dẫn tới thư mục WordPress trên máy tính của bạn
+          cd /d D:/DOWLOAD/Xxam/htdocs/wordpress  # Thay đổi đường dẫn tới thư mục WordPress trên máy tính của bạn
           wp config create --dbname=mydata --dbuser=root --dbpass= --dbhost=localhost --allow-root
 
       - name: Install WooCommerce plugin
