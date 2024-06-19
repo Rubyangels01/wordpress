@@ -23,7 +23,8 @@ jobs:
 
    
 
-    run: |
+     - name: Show changes
+      run: |
         echo "Changes in the latest commit:"
         git show --name-only
 
