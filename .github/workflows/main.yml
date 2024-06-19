@@ -17,8 +17,8 @@ jobs:
 
     - name: Show changes
       run: |
-        git fetch origin
-        git log -1 --pretty=format:"%h - %an, %ar : %s"
+        echo "Changes in the latest commit:"
+        git diff HEAD~1 HEAD
 
     - name: Notify about changes
       run: echo "Code has been pushed to main branch"
