@@ -21,11 +21,16 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+   
 
-    - name: Show changes
+    - name: Show changes if more than one commit
       run: |
-        echo "Changes in the latest commit:"
-        git diff HEAD~1 HEAD
+        if [ `git rev-list --count HEAD` -gt 1 ]; then
+          echo "Changes in the latest commit:"
+          git diff HEAD~1 HEAD
+        else
+          echo "No previous commit to compare."
+        fi
 
     - name: Notify about changes
       run: echo "Code has been pushed to main branch"
