@@ -34,6 +34,7 @@ jobs:
         else
           echo "Only one commit in the repository. Showing details of the latest commit:"
           git show --name-only
+        fi
 
     - name: Notify about changes
       run: echo "Code has been pushed to main branch"
