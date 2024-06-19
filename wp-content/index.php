@@ -1,5 +1,7 @@
 <?php
-
+<var>
+    
+</var>
 // Silence is golden.
 //
 // Xin chao
