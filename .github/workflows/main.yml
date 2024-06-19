@@ -23,17 +23,9 @@ jobs:
 
    
 
-    - name: Show changes if more than one commit
-      run: |
-        echo "Checking for previous commits..."
-        commit_count=$(git rev-list --count HEAD)
-        echo "Number of commits: $commit_count"
-        if [ $commit_count -gt 1 ]; then
-          echo "Changes in the latest commit:"
-          git diff HEAD~1 HEAD
-        else
-          echo "No previous commit to compare."
-        fi
+    run: |
+        echo "Changes in the latest commit:"
+        git show --name-only
 
     - name: Notify about changes
       run: echo "Code has been pushed to main branch"
