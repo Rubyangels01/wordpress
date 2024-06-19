@@ -1,11 +1,9 @@
-# .github/workflows/ci.yml
-name: CI
+name: CI/CD Workflow
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
   build:
@@ -23,8 +21,13 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Run tests
+      run: npm test
 
-      
-    
+    - name: Show changes
+      run: |
+        git fetch origin
+        git log -1 --pretty=format:"%h - %an, %ar : %s"
 
-   
+    - name: Notify about changes
+      run: echo "Code has been pushed to main branch"
