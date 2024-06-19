@@ -19,8 +19,8 @@ jobs:
         with:
           php-version: '7.4'  # Sử dụng PHP version 7.4, thay đổi nếu cần thiết
 
-      - name: Install MySQL client
-        run: sudo apt-get install -y mysql-client
+      - name: Install MySQL server
+        run: sudo apt-get install -y mysql-server
 
       - name: Install wp-cli
         run: |
@@ -30,7 +30,7 @@ jobs:
 
       - name: Set up WordPress configuration
         run: |
-          cd wordpress
+          cd D:/DOWLOAD/Xxam/htdocs/wordpress  # Thay đổi đường dẫn tới thư mục WordPress trên máy tính của bạn
           wp config create --dbname=mydata --dbuser=root --dbpass= --dbhost=localhost --allow-root
 
       - name: Install WooCommerce plugin
@@ -44,5 +44,3 @@ jobs:
       - name: Run WordPress Coding Standards check
         run: |
           wp theme review check . --allow-root
-
-      
