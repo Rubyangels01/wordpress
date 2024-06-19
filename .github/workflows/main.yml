@@ -26,7 +26,9 @@ jobs:
     - name: Show changes if more than one commit
       run: |
         echo "Checking for previous commits..."
-        if [ $(git rev-list --count HEAD) -gt 1 ]; then
+        commit_count=$(git rev-list --count HEAD)
+        echo "Number of commits: $commit_count"
+        if [ $commit_count -gt 1 ]; then
           echo "Changes in the latest commit:"
           git diff HEAD~1 HEAD
         else
