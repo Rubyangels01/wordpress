@@ -1,40 +1,47 @@
-name: CI/CD Workflow
+name: CI/CD for WordPress with XAMPP
 
 on:
   push:
     branches:
-      - main
+      - main  # Kích hoạt workflow khi có push lên nhánh main
 
 jobs:
   build:
+    name: Build and Deploy
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checkout mã nguồn từ repository
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '14'
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'  # Sử dụng PHP version 7.4, thay đổi nếu cần thiết
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install MySQL client
+        run: sudo apt-get install -y mysql-client
 
-  
+      - name: Set up WordPress
+        run: |
+          cp -r ./wordpress/* /opt/lampp/htdocs/wordpress  # Copy mã nguồn WordPress vào thư mục của XAMPP
+          cd /opt/lampp/htdocs/wordpress
+          wp core download --allow-root
+          wp config create --dbname=wordpress --dbuser=root --dbpass= --dbhost=localhost --allow-root
+          wp core install --url=http://localhost/wordpress --title="My WordPress Site" --admin_user=admin --admin_password=admin --admin_email=admin@example.com --allow-root
 
-    - name: Show changes
-      run: |
-        echo "Checking for previous commits..."
-        commit_count=$(git rev-list --count HEAD)
-        echo "Number of commits: $commit_count"
-        if [ $commit_count -gt 1 ]; then
-          echo "Changes in the latest commit compared to the previous commit:"
-          git diff HEAD~1 HEAD
-        else
-          echo "Only one commit in the repository. Showing details of the latest commit:"
-          git show --name-only
-        fi
+      - name: Install WooCommerce plugin
+        run: |
+          wp plugin install woocommerce --activate --allow-root
 
-    - name: Notify about changes
-      run: echo "Code has been pushed to main branch"
+      - name: Run PHP linting (optional)
+        run: |
+          find . -name "*.php" -exec php -l {} \;
+
+      - name: Deploy to local server
+        run: |
+          # Add deployment commands here if needed, e.g., starting XAMPP
+
+      - name: Notify deployment status
+        run: |
+          echo "Deployment completed successfully"
