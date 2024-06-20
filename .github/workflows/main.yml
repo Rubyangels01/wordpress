@@ -12,6 +12,20 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: mydata
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
@@ -33,14 +47,14 @@ jobs:
     - name: Install WordPress dependencies
       run: npm install
 
-    
-    - name: Set up MySQL
-      uses: mysql-actions/setup-mysql@v1
-      with:
-        mysql-version: '5.7'
-        mysql-root-user: 'root'
-        mysql-root-password: ''
-        mysql-database: 'mydata'
+   
+
+    - name: Wait for MySQL to be ready
+      run: |
+        while ! mysqladmin ping -h"127.0.0.1" --silent; do
+          echo 'Waiting for MySQL...'
+          sleep 5
+        done
 
     - name: Install WordPress
       run: |
