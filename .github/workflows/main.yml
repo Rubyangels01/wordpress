@@ -52,20 +52,20 @@ jobs:
       run: |
         wget https://wordpress.org/latest.tar.gz
         tar -xzf latest.tar.gz
-        rsync -av wordpress/ ./
-        cp wp-config-sample.php wp-config.php
-        sed -i "s/database_name_here/mydata/" wp-config.php
-        sed -i "s/username_here/root/" wp-config.php
-        sed -i "s/password_here//" wp-config.php
-        php -S localhost:8084 > server.log 2>&1 &
+        rsync -av wordpress/ ./wordpress
+        cp wordpress/wp-config-sample.php wordpress/wp-config.php
+        sed -i "s/database_name_here/mydata/" wordpress/wp-config.php
+        sed -i "s/username_here/root/" wordpress/wp-config.php
+        sed -i "s/password_here//" wordpress/wp-config.php
+        php -S localhost:8084 ./wordpress > server.log 2>&1 &
 
     - name: Wait for server to start
       run: sleep 30
 
-  
+    - name: Check if the homepage is accessible
+      run: |
+        curl -I http://localhost:8084/wordpress/ | grep "200 OK"
 
     - name: Display server logs if the test fails
       if: failure()
       run: cat server.log
-
-    
