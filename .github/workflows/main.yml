@@ -35,11 +35,8 @@ jobs:
       with:
         php-version: '7.4'
 
-    - name: Install Composer dependencies
-      run: |
-        sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
-        curl -sS https://getcomposer.org/installer | php
-        php composer.phar install --no-dev --optimize-autoloader
+    - name: Install dependencies
+      run: sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
 
     - name: Wait for MySQL to be ready
       run: |
@@ -48,12 +45,15 @@ jobs:
           sleep 5
         done
 
-    - name: Start PHP server
+    - name: Install WordPress
       run: |
-        cd wordpress/
+        wget https://wordpress.org/latest.tar.gz
+        tar -xzf latest.tar.gz
+        rsync -av wordpress/ ./
+        cp wp-config-sample.php wp-config.php
+        sed -i "s/database_name_here/mydata/" wp-config.php
+        sed -i "s/username_here/root/" wp-config.php
+        sed -i "s/password_here//" wp-config.php
         php -S localhost:8084 > server.log 2>&1 &
-
-    - name: Wait for server to start
-      run: sleep 30
 
     
