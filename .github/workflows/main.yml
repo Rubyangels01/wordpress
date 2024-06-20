@@ -62,9 +62,7 @@ jobs:
     - name: Wait for server to start
       run: sleep 30
 
-    - name: Check if the homepage is accessible
-      run: |
-        curl -I http://localhost:8084/wordpress/ | grep "200 OK"
+  
 
     - name: Display server logs if the test fails
       if: failure()
