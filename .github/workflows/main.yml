@@ -41,12 +41,6 @@ jobs:
     - name: Install Composer
       run: curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer
 
-    - name: Install npm
-      run: sudo apt-get install -y npm
-
-    - name: Install WordPress dependencies
-      run: npm install
-
     - name: Wait for MySQL to be ready
       run: |
         while ! mysqladmin ping -h"127.0.0.1" --silent; do
