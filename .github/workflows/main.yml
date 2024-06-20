@@ -1,6 +1,30 @@
+# .github/workflows/ci.yml
+
+name: CI/CD for WordPress
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: mydata
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
     - name: Checkout code
@@ -14,14 +38,13 @@ jobs:
     - name: Install dependencies
       run: sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
 
-    - name: Install Composer
-      run: curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer
-
     - name: Wait for MySQL to be ready
       run: |
         while ! mysqladmin ping -h"127.0.0.1" --silent; do
           echo 'Waiting for MySQL...'
           sleep 5
         done
+
+    
 
     
