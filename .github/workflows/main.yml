@@ -47,8 +47,6 @@ jobs:
     - name: Install WordPress dependencies
       run: npm install
 
-   
-
     - name: Wait for MySQL to be ready
       run: |
         while ! mysqladmin ping -h"127.0.0.1" --silent; do
@@ -64,7 +62,7 @@ jobs:
         cp wp-config-sample.php wp-config.php
         sed -i "s/database_name_here/mydata/" wp-config.php
         sed -i "s/username_here/root/" wp-config.php
-        sed -i "s/password_here//" wp-config.php
+        sed -i "s/password_here/root/" wp-config.php
         php -S localhost:8084 &
 
     
