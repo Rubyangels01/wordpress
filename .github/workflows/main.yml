@@ -52,7 +52,7 @@ jobs:
       run: |
         wget https://wordpress.org/latest.tar.gz
         tar -xzf latest.tar.gz
-        mv wordpress/* .
+        rsync -av wordpress/ ./
         cp wp-config-sample.php wp-config.php
         sed -i "s/database_name_here/mydata/" wp-config.php
         sed -i "s/username_here/root/" wp-config.php
