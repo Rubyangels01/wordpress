@@ -63,6 +63,6 @@ jobs:
         # Wait for the server to start
         sleep 10
         # Check if the homepage is accessible
-        curl -I http://localhost:8084 | grep "200 OK"
+        curl -I http://localhost:8084/wordpress | grep "200 OK"
 
     
