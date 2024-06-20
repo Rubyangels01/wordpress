@@ -33,13 +33,13 @@ jobs:
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4' # Chọn phiên bản PHP phù hợp với WordPress của bạn
+        php-version: '7.4'
 
-    - name: Install dependencies
-      run: sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
-
-    - name: Install Composer
-      run: curl -sS https://getcomposer.org/installer | php && sudo mv composer.phar /usr/local/bin/composer
+    - name: Install Composer dependencies
+      run: |
+        sudo apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev
+        curl -sS https://getcomposer.org/installer | php
+        php composer.phar install --no-dev --optimize-autoloader
 
     - name: Wait for MySQL to be ready
       run: |
@@ -48,19 +48,12 @@ jobs:
           sleep 5
         done
 
-    - name: Copy WordPress files
+    - name: Start PHP server
       run: |
-        rsync -av wordpress/ ./wordpress_deploy/
-        cp wp-config.php wordpress_deploy/wp-config.php
-        sed -i "s/database_name_here/mydata/" wordpress_deploy/wp-config.php
-        sed -i "s/username_here/root/" wordpress_deploy/wp-config.php
-        sed -i "s/password_here//" wordpress_deploy/wp-config.php
+        cd wordpress/
+        php -S localhost:8084 > server.log 2>&1 &
 
     - name: Wait for server to start
       run: sleep 30
 
     
-
-    - name: Display server logs if the test fails
-      if: failure()
-      run: cat server.log
